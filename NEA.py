@@ -8,10 +8,7 @@ pygame.init()
 screen = pygame.display.set_mode((1280, 680))
 playing = True
 clock = pygame.time.Clock()
-framerate = 60
-
-screen.fill('#55CE79')
-pygame.display.flip()
+framerate = 30
 
 
 class Ball:
@@ -143,7 +140,7 @@ while True:
         #drawing screen and ball location every game loop
         screen.fill('#55CE79')
 
-        if level1:
+        
             pygame.draw.rect(screen, "#3D872C", (605, 530,50,40))
             ball.draw()
             for wall in walls:
@@ -160,7 +157,8 @@ while True:
                 ball.set_pos(-10,0)
             elif keys[K_RIGHT]:
                 ball.set_pos(10,0)
-            
+                
+        if level1:  
             #calling ball methods in main code
             ball.shoot()
             ball.aim()
