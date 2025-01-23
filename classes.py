@@ -26,7 +26,7 @@ class Ball:
 
     #returns the position of the ball to the main code
     def get_pos(self):
-        return (self.x , self.y,)
+        return (self.x , self.y)
 
     #displays aiming line as you are dragging back
     def aim(self):
@@ -139,6 +139,8 @@ class Button:
     #detects a mouse click
     def clicked(self):
         mousePos = pygame.mouse.get_pos()
-        buttonArea = pygame.Rect(self.x, self.y, self.width, self.length)
-        #if buttonArea.collidepoint(mousePos) and pygame.mouse.get_pressed()[0]:
-
+        buttonArea = pygame.Rect(self.x, self.y, self.width, self.height)
+        if buttonArea.collidepoint(mousePos) and pygame.mouse.get_pressed()[0]:
+          return 1
+        else:
+          return 0
