@@ -34,9 +34,9 @@ walls = [
 hole = Hole(screen, 630, 130)
 
 buttons = [
-    Button(screen, 560, 475, "#40A15D", 160, 120, "square"),
     Button(screen, 282.5, 535, "#40A15D", 140, 100, "circle"),
-    Button(screen, 922.5, 480, "#40A15D", 120, 100, "square")
+    Button(screen, 922.5, 480, "#40A15D", 120, 100, "square"),
+    Button(screen, 560, 475, "#40A15D", 160, 120, "square")
     ]
 
 #main game
