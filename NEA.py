@@ -2,6 +2,7 @@
 import sys
 import pygame
 from pygame.locals import K_UP, K_DOWN, K_LEFT, K_RIGHT
+import time
 #linking files
 from classes import *
 import functions
@@ -19,6 +20,8 @@ pars = [2]
 currentLevel = 1
 scoreMessages = ["Par", "Bogey", "Double Bogey", "Triple Bogey", "Eagle", "Birdie"]
 finished = True
+currentLevel = 0
+
 
 #initialising instances of ball and wall classes
 ball = Ball(screen, 630, 550)
@@ -34,7 +37,6 @@ buttons = [
     Button(screen, 560, 475, "#40A15D", 160, 120, "square"),
     Button(screen, 282.5, 535, "#40A15D", 140, 100, "circle"),
     Button(screen, 922.5, 480, "#40A15D", 120, 100, "square")
-    
     ]
 
 #main game
@@ -57,18 +59,23 @@ while True:
     elif keys[K_RIGHT]:
         ball.set_pos(10,0)
                 
-    menu(screen, buttons)    
-
-    # if finished:
-    #     #running code for level 1
-    #     finished, shotCount = level_1(screen, ball, walls, hole, shotCount, currentLevel, pars, scoreMessages)            
-            
-    # else:
-    #     #ending screen
-    #     functions.display_text(screen, "YOU WON LEVEL 1", 600, 400, 80)
-    #     shotDisplay = functions.calculate_Score(shotCount, scoreMessages, pars, currentLevel)
-    #     functions.display_text(screen, shotDisplay, 600, 450, 70)
-    #     #currentLevel += 1
+        
+    if currentLevel == 0:
+      currentLevel += menu(screen, buttons)
+      
+    elif currentLevel == 1:
+      
+      if finished:
+          #running code for level 1
+          finished, shotCount = level_1(screen, ball, walls, hole, shotCount, currentLevel, pars, scoreMessages)            
+              
+      else:
+          #ending screen
+          functions.display_text(screen, "YOU WON LEVEL 1", 600, 400, 80)
+          shotDisplay = functions.calculate_Score(shotCount, scoreMessages, pars, currentLevel)
+          functions.display_text(screen, shotDisplay, 600, 450, 70)
+          #time.sleep(3)
+          #currentLevel += 1
 
     pygame.display.flip()
     clock.tick(framerate)
