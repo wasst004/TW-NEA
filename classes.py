@@ -14,6 +14,7 @@ class Ball:
         self.dragging = False
         self.pos1 = (0,0)
 
+
     #displays the ball object on sceen
     def draw(self):
         pygame.draw.circle(self.screen, self.colour, (self.x, self.y), self.radius)
@@ -50,11 +51,11 @@ class Ball:
 
     #makes ball slow down as it rolls
     def move(self): 
-        self.dx = round(self.dx, 2)
+        self.dx = round(self.dx, 2) # rounds to 2dp to reduce lag
         self.dy = round(self.dy, 2)
         self.x = round((self.x+self.dx),2)
         self.y = round((self.y+self.dy),2)
-        self.dx *= 0.95
+        self.dx *= 0.95 #decreases speed slightly each frame
         self.dy *= 0.95
         if abs(self.dx) < 0.1 and abs(self.dy) < 0.1:
             self.dx = 0
@@ -63,19 +64,23 @@ class Ball:
      #collision detection
     def collision(self,walls):
         ballRect = pygame.Rect((self.x-self.radius), (self.y-self.radius), self.radius*2, self.radius*2)
-        for wall in walls:
+        for wall in walls: # iterates through each wall
             wallRect = pygame.Rect(wall.tl[0], wall.tl[1], wall.tr[0] - wall.tl[0], wall.bl[1] - wall.tl[1])
             if ballRect.colliderect(wallRect):
-                if abs(ballRect.left - wallRect.right) < abs(self.dx) or abs(ballRect.right - wallRect.left) < abs(self.dx):
-                    self.dx = -self.dx # Reflect X velocity if ball hits lest o right edge
-                if abs(ballRect.top - wallRect.bottom) < abs(self.dy) or abs(ballRect.bottom - wallRect.top) < abs(self.dy):
-                    self.dy = -self.dy # Reflect Y velocity if ball hits top or bottom
+                if wall.direction == "west" and ballRect.left < wallRect.right and self.dx < 0:
+                    self.dx = -self.dx #changes direction of ball if it hits left wall
+                elif wall.direction == "east" and ballRect.right > wallRect.left and self.dx > 0:
+                    self.dx = -self.dx #changes direction of ball if it hits right wall
+                elif wall.direction == "north" and ballRect.top < wallRect.bottom and self.dy < 0:
+                    self.dy = -self.dy #changes direction of ball if it hits top wall
+                elif wall.direction == "south" and ballRect.bottom > wallRect.top and self.dy > 0:
+                    self.dy = -self.dy #changes direction of ball if it hits bottom wall
 
         
 class Wall:
 
     #sets values
-    def __init__(self, screen, tl, tr, br, bl):
+    def __init__(self, screen, tl, tr, br, bl, direction):
         #tl, tr, br and bl refer to each corner of the shape e.g. top right
         self.screen = screen
         self.tl = tl
@@ -83,6 +88,7 @@ class Wall:
         self.br = br
         self.bl = bl
         self.colour = "white"
+        self.direction = direction
 
     #draws shape
     def draw(self):
@@ -104,8 +110,35 @@ class Hole:
     
     #checks for a collision with the hole
     def collision(self, ballPos, level1):
-        holeArea = pygame.draw.circle(self.screen, self.colour, (self.x, self.y), self.radius-6)
+        holeArea = pygame.Rect(self.x -11, self.y -11, 22, 22)
         if holeArea.collidepoint(ballPos):
             return False
         else:
             return True
+
+
+class Button:
+
+    #constructor
+    def __init__(self, screen, x, y, colour, width, height, shape):
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.colour = colour
+        self.width = width
+        self.height = height
+        self.shape = shape
+
+    #draws shape
+    def draw(self):
+        if self.shape == "square":
+            pygame.draw.rect(self.screen, self.colour, (self.x, self.y, self.width, self.height))
+        else:
+            pygame.draw.circle(self.screen, self.colour, (self.x, self.y), (self.width/2))
+
+    #detects a mouse click
+    def clicked(self):
+        mousePos = pygame.mouse.get_pos()
+        buttonArea = pygame.Rect(self.x, self.y, self.width, self.length)
+        #if buttonArea.collidepoint(mousePos) and pygame.mouse.get_pressed()[0]:
+
