@@ -21,8 +21,8 @@ class Ball:
 
     #allows the main code to change the position of the ball
     def set_pos(self, x, y):
-        self.x += x
-        self.y += y
+        self.x = x
+        self.y = y
 
     #returns the position of the ball to the main code
     def get_pos(self):
@@ -108,8 +108,14 @@ class Hole:
     def draw(self):
         pygame.draw.circle(self.screen, self.colour, (self.x, self.y), self.radius)
     
+    #sets postion of hole
+    def set_pos(self, x, y):
+      self.x = x
+      self.y = y
+    
+    
     #checks for a collision with the hole
-    def collision(self, ballPos, level1):
+    def collision(self, ballPos):
         holeArea = pygame.Rect(self.x -11, self.y -11, 22, 22)
         if holeArea.collidepoint(ballPos):
             return False
