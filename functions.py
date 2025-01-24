@@ -7,8 +7,8 @@ def display_text(screen, text, x, y, size):
     screen.blit(text, (x, y))
 
 #function to draw the parts of level one
-def draw_elements(screen, ball, walls, hole):
-    pygame.draw.rect(screen, "#3D872C", (605,530,50,40))
+def draw_elements(screen, ball, walls, hole, rect):
+    pygame.draw.rect(screen, "#3D872C", rect)
     ball.draw()
     for wall in walls:
         wall.draw()
