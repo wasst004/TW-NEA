@@ -6,7 +6,7 @@ import time
 #linking files
 from classes import *
 import functions
-from levelOne import level_1
+from levelOne import level
 from menu import menu
 
 #setup
@@ -16,7 +16,7 @@ clock = pygame.time.Clock()
 framerate = 60
 #setting variables
 shotCount = 0
-pars = [2]
+pars = [2, 4]
 currentLevel = 1
 scoreMessages = ["Par", "Bogey", "Double Bogey", "Triple Bogey", "Eagle", "Birdie"]
 finished = True
@@ -24,12 +24,12 @@ currentLevel = 0
 
 #walls for level two
 walls2 = [
-    Wall(screen, (480,100), (800,100), (800,110), (480,110), "north"),
-    Wall(screen, (480,110), (490,110), (490,290), (480,290), "west"),
-    Wall(screen, (490,280), (620,280), (620,290), (490,290), "south"),
-    Wall(screen, (610,290), (620,290), (620,580), (610,580), "west"),
-    Wall(screen, (620,570), (800,570), (800,580), (620,580), "south"),
-    Wall(screen, (790,110), (800,110), (800,570), (790,570), "east")
+    Wall(screen, (440,100), (840,100), (840,110), (440,110), "north"),
+    Wall(screen, (440,110), (450,110), (450,250), (440,250), "west"),
+    Wall(screen, (450,240), (700,240), (700,250), (450,250), "south"),
+    Wall(screen, (690,250), (700,250), (700,580), (690,580), "west"),
+    Wall(screen, (690,570), (840,570), (840,580), (690,580), "south"),
+    Wall(screen, (830,110), (840,110), (840,570), (830,570), "east")
   ]
 
 #initialising instances of ball and wall classes
@@ -40,7 +40,7 @@ walls = [
     Wall(screen, (530,80), (720,80), (720,90), (530,90), "north"),
     Wall(screen, (530,590), (720,590), (720,600), (530,600), "south")
         ]
-hole = Hole(screen, 630, 130)
+hole = Hole(screen, 625, 130)
 
 buttons = [
     Button(screen, 282.5, 535, "#40A15D", 140, 100, "circle"),
@@ -76,15 +76,35 @@ while True:
       
       if finished:
           #running code for level 1
-          finished, shotCount = level_1(screen, ball, walls, hole, shotCount, currentLevel, pars, scoreMessages)            
+          finished, shotCount = level(screen, ball, walls, hole, shotCount, currentLevel, pars, scoreMessages, (605,530,50,40))            
               
       else:
           #ending screen
           functions.display_text(screen, "YOU WON LEVEL 1", 600, 400, 80)
           shotDisplay = functions.calculate_Score(shotCount, scoreMessages, pars, currentLevel)
           functions.display_text(screen, shotDisplay, 600, 450, 70)
+          currentLevel += 1
+          #time.sleep(3)
+          finished = True
+      
+    elif currentLevel == 2:
+      ball.set_pos(765, 530)
+      hole.set_pos(470,175)
+      
+      
+      if finished:
+          #running code for level 2
+          finished, shotCount = level(screen, ball, walls2, hole, shotCount, currentLevel, pars, scoreMessages, (740,510,50,40))            
+              
+      else:
+          #ending screen
+          functions.display_text(screen, "YOU WON LEVEL 2", 600, 400, 80)
+          shotDisplay = functions.calculate_Score(shotCount, scoreMessages, pars, currentLevel)
+          functions.display_text(screen, shotDisplay, 600, 450, 70)
           #time.sleep(3)
           #currentLevel += 1
-
+          finished = True
+      
+    
     pygame.display.flip()
     clock.tick(framerate)
