@@ -22,6 +22,15 @@ scoreMessages = ["Par", "Bogey", "Double Bogey", "Triple Bogey", "Eagle", "Birdi
 finished = True
 currentLevel = 0
 
+#walls for level two
+walls2 = [
+    Wall(screen, (480,100), (800,100), (800,110), (480,110), "north"),
+    Wall(screen, (480,110), (490,110), (490,290), (480,290), "west"),
+    Wall(screen, (490,280), (620,280), (620,290), (490,290), "south"),
+    Wall(screen, (610,290), (620,290), (620,580), (610,580), "west"),
+    Wall(screen, (620,570), (800,570), (800,580), (620,580), "south"),
+    Wall(screen, (790,110), (800,110), (800,570), (790,570), "east")
+  ]
 
 #initialising instances of ball and wall classes
 ball = Ball(screen, 630, 550)
