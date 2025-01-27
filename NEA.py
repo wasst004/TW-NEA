@@ -20,11 +20,12 @@ pars = [2, 4, 5]
 currentLevel = 1
 scoreMessages = ["Par", "Bogey", "Double Bogey", "Triple Bogey", "Eagle", "Birdie"]
 finished = True
-currentLevel = 0
+currentLevel = 3
 time = 0
 totalScore = 0
 scores = []
 shots = []
+timer = 0
 
 
 #initialising instances of ball and wall classes
@@ -55,7 +56,7 @@ walls3 = [
     Wall(screen, (710, 570), (850, 570), (850, 580), (710, 580), "south"),
     Wall(screen, (840, 110), (850, 110), (850, 570), (840, 570), "east"),
   ]
-
+freeWall = Directional(screen, (710, 300), (770, 300), (770, 310), (710, 310), "n/a")
 
 hole = Hole(screen, 625, 130)
 buttons = [
@@ -123,7 +124,7 @@ while True:
         if finished:
             #running code for level 2
             finished, shotCount = level(screen, ball, walls2, hole, shotCount, currentLevel, pars, scoreMessages, (740,510,50,40), settings, scores, shots)            
-                
+            
         else:
             #ending screen
             functions.display_text(screen, "YOU WON LEVEL 2", 600, 400, 80)
@@ -148,7 +149,8 @@ while True:
         if finished:
             #running code for level 2
             finished, shotCount = level(screen, ball, walls3, hole, shotCount, currentLevel, pars, scoreMessages, (750,510,50,40), settings, scores, shots)            
-                
+            freeWall.draw()
+            timer = freeWall.collision(ball, timer)
         else:
             #ending screen
             functions.display_text(screen, "YOU WON LEVEL 3", 600, 400, 80)
