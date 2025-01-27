@@ -16,7 +16,7 @@ clock = pygame.time.Clock()
 framerate = 60
 #setting variables
 shotCount = 0
-pars = [2, 4]
+pars = [2, 4, 5]
 currentLevel = 1
 scoreMessages = ["Par", "Bogey", "Double Bogey", "Triple Bogey", "Eagle", "Birdie"]
 finished = True
@@ -44,6 +44,18 @@ walls2 = [
     Wall(screen, (690,570), (840,570), (840,580), (690,580), "south"),
     Wall(screen, (830,110), (840,110), (840,570), (830,570), "east")
   ]
+#walls for level three
+walls3 = [
+    Wall(screen, (430, 100), (850, 100), (850, 110), (430, 110), "north"),
+    Wall(screen, (430, 110), (440, 110), (440,400), (430, 400), "west"),
+    Wall(screen, (440, 390), (580, 390), (580, 400), (440, 400), "south"),
+    Wall(screen, (570, 250), (580, 250), (580, 390), (570, 390), "east"),
+    Wall(screen, (570, 240), (710, 240), (710, 250), (570, 250), "south"),
+    Wall(screen, (700, 250), (710, 250), (710, 580), (700, 580), "west"),
+    Wall(screen, (710, 570), (850, 570), (850, 580), (710, 580), "south"),
+    Wall(screen, (840, 110), (850, 110), (850, 570), (840, 570), "east"),
+  ]
+
 
 hole = Hole(screen, 625, 130)
 buttons = [
@@ -100,6 +112,7 @@ while True:
                 totalScore += score
                 finished = True
                 shotCount = 0
+                time = 0
                 ball.set_pos(765, 530)
                 hole.set_pos(470,175)
                 ball.reset_speed()
@@ -116,8 +129,32 @@ while True:
             functions.display_text(screen, "YOU WON LEVEL 2", 600, 400, 80)
             score, shotDisplay = functions.calculate_Score(shotCount, scoreMessages, pars, currentLevel)
             functions.display_text(screen, shotDisplay, 600, 450, 70)
-            #currentLevel += 1
-            #finished = True
+            time += 1
+            #waits 3 seconds
+            if time == 180:
+                #sets all values to ones for level 2
+                scores.append(score)
+                shots.append(shotCount)
+                currentLevel += 1
+                totalScore += score
+                finished = True
+                shotCount = 0
+                ball.set_pos(775, 530)
+                hole.set_pos(505,365)
+                ball.reset_speed()
+    
+    elif currentLevel == 3:
+      
+        if finished:
+            #running code for level 2
+            finished, shotCount = level(screen, ball, walls3, hole, shotCount, currentLevel, pars, scoreMessages, (750,510,50,40), settings, scores, shots)            
+                
+        else:
+            #ending screen
+            functions.display_text(screen, "YOU WON LEVEL 3", 600, 400, 80)
+            score, shotDisplay = functions.calculate_Score(shotCount, scoreMessages, pars, currentLevel)
+            functions.display_text(screen, shotDisplay, 600, 450, 70)
+      
         
     
     pygame.display.flip()
