@@ -156,6 +156,24 @@ class Button:
         else:
           return False
 
+class Directional(Wall):
+       
+    #collision detection
+    def collision(self, ball, timer):
+        ballRect = pygame.Rect((ball.x - ball.radius), (ball.y - ball.radius), ball.radius * 2, ball.radius * 2)
+        wallRect = pygame.Rect(self.tl[0], self.tl[1], self.tr[0] - self.tl[0], self.bl[1] - self.tl[1])
+        if ballRect.colliderect(wallRect):
+            if timer == 0:
+                if abs(ballRect.left - wallRect.right) < abs(ball.dx) or abs(ballRect.right - wallRect.left) < abs(ball.dx):
+                    ball.dx = -ball.dx # Reflect X velocity if ball hits lest o right edge
+                elif abs(ballRect.top - wallRect.bottom) < abs(ball.dy) or abs(ballRect.bottom - wallRect.top) < abs(ball.dy):
+                    ball.dy = -ball.dy # Reflect Y velocity if ball hits top or bottom
+                timer = 20
+        if timer != 0:
+            timer -= 1
+        return timer
+
+
 
 # class Diagonal(Wall):
 
