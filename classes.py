@@ -28,6 +28,11 @@ class Ball:
     def get_pos(self):
         return (self.x , self.y)
 
+    #resets ball's speed
+    def reset_speed(self):
+        self.dx = 0
+        self.dy = 0
+
     #displays aiming line as you are dragging back
     def aim(self):
         if self.dragging:
@@ -147,6 +152,21 @@ class Button:
         mousePos = pygame.mouse.get_pos()
         buttonArea = pygame.Rect(self.x, self.y, self.width, self.height)
         if buttonArea.collidepoint(mousePos) and pygame.mouse.get_pressed()[0]:
-          return 1
+          return True
         else:
-          return 0
+          return False
+
+
+# class Diagonal(Wall):
+
+#     def bounce(self, ball, timer):
+#         ballRect = pygame.Rect((ball.x - ball.radius), (ball.y - ball.radius), ball.radius * 2, ball.radius * 2)
+#         wallRect = pygame.Rect(self.tl[0], self.tl[1], self.tr[0] - self.tl[0], self.bl[1] - self.tl[1])
+
+#         if ballRect.colliderect(wallRect):
+#             if timer == 0:
+#                 ball.dx, ball.dy = ball.dy, ball.dx
+#                 timer = 40
+#         if timer != 0:
+#             timer -= 1
+#         return timer
