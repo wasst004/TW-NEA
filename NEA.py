@@ -16,11 +16,11 @@ clock = pygame.time.Clock()
 framerate = 60
 #setting variables
 shotCount = 0
-pars = [2, 4, 5]
+pars = [2, 3, 4]
 currentLevel = 1
 scoreMessages = ["Par", "Bogey", "Double Bogey", "Triple Bogey", "Eagle", "Birdie"]
 finished = True
-currentLevel = 3
+currentLevel = 0
 time = 0
 totalScore = 0
 scores = []
@@ -58,6 +58,14 @@ walls3 = [
   ]
 freeWall = Directional(screen, (710, 300), (770, 300), (770, 310), (710, 310), "n/a")
 
+roughGrass = [
+    Terrain(screen, 710, 190, 60, 110),
+    Terrain(screen, 440, 250, 130, 60),
+    Terrain(screen, 570, 110, 140, 50),
+    Terrain(screen, 570, 190, 140, 50),
+]
+
+#initialising instances of hole and button classes
 hole = Hole(screen, 625, 130)
 buttons = [
     Button(screen, 282.5, 535, "#40A15D", 140, 100, "circle"),
@@ -96,7 +104,7 @@ while True:
       
         if finished:
             #running code for level 1
-            finished, shotCount = level(screen, ball, walls, hole, shotCount, currentLevel, pars, scoreMessages, (605,530,50,40), settings, scores, shots)            
+            finished, shotCount = level(screen, ball, walls, hole, shotCount, currentLevel, pars, scoreMessages, (605,530,50,40), settings, scores, shots, [])            
               
         else:
             #ending screen
@@ -123,7 +131,7 @@ while True:
         
         if finished:
             #running code for level 2
-            finished, shotCount = level(screen, ball, walls2, hole, shotCount, currentLevel, pars, scoreMessages, (740,510,50,40), settings, scores, shots)            
+            finished, shotCount = level(screen, ball, walls2, hole, shotCount, currentLevel, pars, scoreMessages, (740,510,50,40), settings, scores, shots, [])            
             
         else:
             #ending screen
@@ -148,7 +156,7 @@ while True:
       
         if finished:
             #running code for level 2
-            finished, shotCount = level(screen, ball, walls3, hole, shotCount, currentLevel, pars, scoreMessages, (750,510,50,40), settings, scores, shots)            
+            finished, shotCount = level(screen, ball, walls3, hole, shotCount, currentLevel, pars, scoreMessages, (750,510,50,40), settings, scores, shots, roughGrass)            
             freeWall.draw()
             timer = freeWall.collision(ball, timer)
         else:

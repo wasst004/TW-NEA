@@ -55,13 +55,13 @@ class Ball:
         return shotCount
 
     #makes ball slow down as it rolls
-    def move(self): 
+    def move(self, slowDown): 
         self.dx = round(self.dx, 2) # rounds to 2dp to reduce lag
         self.dy = round(self.dy, 2)
         self.x = round((self.x+self.dx),2)
         self.y = round((self.y+self.dy),2)
-        self.dx *= 0.95 #decreases speed slightly each frame
-        self.dy *= 0.95
+        self.dx *= slowDown #decreases speed slightly each frame
+        self.dy *= slowDown
         if abs(self.dx) < 0.1 and abs(self.dy) < 0.1:
             self.dx = 0
             self.dy = 0
@@ -173,7 +173,25 @@ class Directional(Wall):
             timer -= 1
         return timer
 
-
+class Terrain:
+    #constructor
+    def __init__(self, screen, x, y, width, height):
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.width = width
+        self. height = height
+        self.colour = "#018820" #dark green
+    #draws the terrain
+    def draw(self):
+        pygame.draw.rect(self.screen, self.colour, (self.x, self.y, self.width, self.height))
+    #detects is the ball is rolling over the terrain
+    def rolling_over(self, ball):
+        ball_rect = pygame.Rect(ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2)
+        terrain_rect = pygame.Rect(self.x, self.y, self.width, self.height)
+        if terrain_rect.colliderect(ball_rect):
+            return 0.9   #if ball is on terrin the slow down rate is more than normal
+        return 0.95        
 
 # class Diagonal(Wall):
 
