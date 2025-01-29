@@ -16,7 +16,7 @@ clock = pygame.time.Clock()
 framerate = 60
 #setting variables
 shotCount = 0
-pars = [2, 3, 4]
+pars = [2, 3, 4, 5]
 currentLevel = 1
 scoreMessages = ["Par", "Bogey", "Double Bogey", "Triple Bogey", "Eagle", "Birdie"]
 finished = True
@@ -76,12 +76,27 @@ walls4 = [
   Wall(screen, (490, 210), (575, 210), (575, 220), (490, 220), "north"),
   Wall(screen, (565, 190), (575, 190), (575, 210), (565, 210), "west"),
   ]
-
+freeWalls = [
+    Directional(screen, (563, 263), (715, 263), (715, 274), (563, 274), "n/a"),
+    Directional(screen, (490,325), (590, 325), (590, 336), (490, 336), "n/a"),
+    Directional(screen, (690, 325), (790, 325), (790, 336), (690, 336), "n/a"),
+    Directional(screen, (565, 387), (715, 387), (715, 398), (565, 398), "n/a")
+ ] 
+timers = [0, 0, 0, 0]
 roughGrass = [
-    Terrain(screen, 710, 190, 60, 110),
-    Terrain(screen, 440, 250, 130, 60),
-    Terrain(screen, 570, 110, 140, 50),
-    Terrain(screen, 570, 190, 140, 50),
+    Terrain(screen, 710, 190, 60, 110, "rough"),
+    Terrain(screen, 440, 250, 130, 60, "rough"),
+    Terrain(screen, 570, 110, 140, 50, "rough"),
+    Terrain(screen, 570, 190, 140, 50, "rough"),
+]
+terrains = [
+    Terrain(screen, 330, 180, 40, 320, "rough"),
+    Terrain(screen, 370, 180, 40, 320, "ice"),
+    Terrain(screen, 410, 180, 40, 320, "rough"),
+    Terrain(screen, 830, 180, 40, 320, "rough"),
+    Terrain(screen, 870, 180, 40, 320, "ice"),
+    Terrain(screen, 910, 180, 40, 320, "rough"),
+    Terrain(screen, 490, 220, 300, 240, "ice")
 ]
 
 #initialising instances of hole and button classes
@@ -124,7 +139,7 @@ while True:
         if finished:
             #running code for level 1
             finished, shotCount = level(screen, ball, walls, hole, shotCount, currentLevel, pars, scoreMessages, (605,530,50,40), settings, scores, shots, [])            
-              
+
         else:
             #ending screen
             functions.display_text(screen, "YOU WON LEVEL 1", 600, 400, 80)
@@ -167,6 +182,7 @@ while True:
                 totalScore += score
                 finished = True
                 shotCount = 0
+                time = 0
                 ball.set_pos(775, 530)
                 hole.set_pos(505,365)
                 ball.reset_speed()
@@ -174,13 +190,44 @@ while True:
     elif currentLevel == 3:
       
         if finished:
-            #running code for level 2
+            #running code for level 3
             finished, shotCount = level(screen, ball, walls3, hole, shotCount, currentLevel, pars, scoreMessages, (750,510,50,40), settings, scores, shots, roughGrass)            
             freeWall.draw()
             timer = freeWall.collision(ball, timer)
         else:
             #ending screen
             functions.display_text(screen, "YOU WON LEVEL 3", 600, 400, 80)
+            score, shotDisplay = functions.calculate_Score(shotCount, scoreMessages, pars, currentLevel)
+            functions.display_text(screen, shotDisplay, 600, 450, 70)
+            time += 1
+            #waits 3 seconds
+            if time == 180:
+                #sets all values to ones for level 2
+                scores.append(score)
+                shots.append(shotCount)
+                currentLevel += 1
+                totalScore += score
+                finished = True
+                shotCount = 0
+                time = 0
+                ball.set_pos(640, 590)
+                hole.set_pos(640,430)
+                ball.reset_speed()
+
+
+
+    elif currentLevel == 4:
+      
+        if finished:
+            #running code for level 4
+            finished, shotCount = level(screen, ball, walls4, hole, shotCount, currentLevel, pars, scoreMessages, (615,570,50,40), settings, scores, shots, terrains)            
+            
+            for wall in freeWalls:
+                wall.draw()
+                timers[freeWalls.index(wall)] = wall.collision(ball, timers[freeWalls.index(wall)])
+        else:
+            #ending screen
+            functions.display_text(screen, "YOU WON LEVEL 4", 600, 400, 80)
             score, shotDisplay = functions.calculate_Score(shotCount, scoreMessages, pars, currentLevel)
             functions.display_text(screen, shotDisplay, 600, 450, 70)
       

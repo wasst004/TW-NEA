@@ -168,29 +168,35 @@ class Directional(Wall):
                     ball.dx = -ball.dx # Reflect X velocity if ball hits lest o right edge
                 elif abs(ballRect.top - wallRect.bottom) < abs(ball.dy) or abs(ballRect.bottom - wallRect.top) < abs(ball.dy):
                     ball.dy = -ball.dy # Reflect Y velocity if ball hits top or bottom
-                timer = 20
+                timer = 30
         if timer != 0:
             timer -= 1
         return timer
 
 class Terrain:
     #constructor
-    def __init__(self, screen, x, y, width, height):
+    def __init__(self, screen, x, y, width, height, type):
         self.screen = screen
         self.x = x
         self.y = y
         self.width = width
         self. height = height
         self.colour = "#018820" #dark green
+        self.type = type
     #draws the terrain
     def draw(self):
+        if self.type == "ice":
+            self.colour =  "#69D4FF" #light blue
         pygame.draw.rect(self.screen, self.colour, (self.x, self.y, self.width, self.height))
     #detects is the ball is rolling over the terrain
     def rolling_over(self, ball):
         ball_rect = pygame.Rect(ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2)
         terrain_rect = pygame.Rect(self.x, self.y, self.width, self.height)
         if terrain_rect.colliderect(ball_rect):
-            return 0.9   #if ball is on terrin the slow down rate is more than normal
+            if self.type == "ice":
+                return 0.99 #if ball is on ice the slow down rate is less than normal
+            else:
+                return 0.9   #if ball is on terrin the slow down rate is more than normal
         return 0.95        
 
 # class Diagonal(Wall):

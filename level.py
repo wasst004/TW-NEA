@@ -6,6 +6,14 @@ def level(screen, ball, walls, hole, shotCount, currentLevel, pars, scoreMessage
     finished = True
 
     #displays elements of level
+    slowDown = 0.95
+    for rough in roughGrass:
+        rough.draw()
+    for rough in roughGrass:    
+        slowDown = rough.rolling_over(ball)
+        if slowDown < 0.95:
+            break
+    
     functions.draw_elements(screen, ball, walls, hole, rect)
     pause = functions.draw_board(screen, currentLevel, shotCount, pars, settings)
     
@@ -19,13 +27,7 @@ def level(screen, ball, walls, hole, shotCount, currentLevel, pars, scoreMessage
            pause = functions.display_settings(screen, scores, shots, pars, settings)
            pygame.display.flip()
 
-    slowDown = 0.95
-    for rough in roughGrass:
-        rough.draw()
-    for rough in roughGrass:    
-        slowDown = rough.rolling_over(ball)
-        if slowDown < 0.95:
-            break
+
 
     #calling ball methods in main code
     shotCount = ball.shoot(shotCount)
